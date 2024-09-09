@@ -1,6 +1,7 @@
 package com.link1nk.workshopmongo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,8 @@ public class UserService {
 	}
 	
 	public User findById(String id) {
-		if (userRepository.findById(id).isPresent()) {
-			return userRepository.findById(id).get();
-		}
-				 
-		throw new ObjectNotFoundException("Objeto nao encontrado");
+		Optional<User> user = userRepository.findById(id);
+	    return user.orElseThrow(() -> new ObjectNotFoundException("Post não encontrado"));
 	}
 	
 	public User insert(User user) {
